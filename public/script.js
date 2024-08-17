@@ -21,9 +21,6 @@ document.getElementById('create-game').addEventListener('click', () => {
     console.log('Richiesta di creazione della stanza');
     socket.emit('createRoom', playerInfo);
     isCreator = true;
-
-document.getElementById('create-game').addEventListener('click', () => {
-    socket.emit('createRoom');
 });
 
 document.getElementById('join-game').addEventListener('click', () => {
@@ -32,7 +29,6 @@ document.getElementById('join-game').addEventListener('click', () => {
         console.log('Richiesta di adesione alla stanza:', roomCode);
         socket.emit('joinRoom', roomCode, playerInfo);
         isCreator = false;
-        socket.emit('joinRoom', roomCode);
     } else {
         alert('Inserisci un codice di partita valido!');
     }
@@ -58,10 +54,6 @@ document.getElementById('submit-guess').addEventListener('click', () => {
 
 socket.on('roomCreated', (roomCode) => {
     console.log('Stanza creata:', roomCode);
-    socket.emit('playerReady');
-});
-
-socket.on('roomCreated', (roomCode) => {
     document.querySelector('.game-options').style.display = 'none';
     document.querySelector('.ready-area').style.display = 'block';
     document.getElementById('room-code').innerText = roomCode;
@@ -69,13 +61,11 @@ socket.on('roomCreated', (roomCode) => {
     if (isCreator) {
         document.getElementById('settings-menu').style.display = 'block';
     }
+    socket.emit('playerReady');
 });
 
 socket.on('roomJoined', (roomCode) => {
     console.log('Unito alla stanza:', roomCode);
-});
-
-socket.on('roomJoined', (roomCode) => {
     document.querySelector('.game-options').style.display = 'none';
     document.querySelector('.ready-area').style.display = 'block';
     document.getElementById('room-code').innerText = roomCode;
@@ -104,10 +94,6 @@ socket.on('updatePlayerInfo', (players) => {
 
 socket.on('roomFull', () => {
     console.log('La stanza è piena!');
-    document.getElementById('player-count').innerText = count;
-});
-
-socket.on('roomFull', () => {
     document.getElementById('message').innerText = 'La stanza è piena!';
 });
 
@@ -157,6 +143,9 @@ socket.on('roomLimitIncreased', (newLimit) => {
 });
 
 function startTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
     let timer = 30; // Tempo in secondi
     document.getElementById('timer').style.display = 'block';
     document.getElementById('timer').innerText = `Tempo rimasto: ${timer}s`;
@@ -177,5 +166,4 @@ function stopTimer() {
         timerInterval = null;
     }
     document.getElementById('timer').style.display = 'none';
-  }
 }
