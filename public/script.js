@@ -177,4 +177,5 @@ function stopTimer() {
         timerInterval = null;
     }
     document.getElementById('timer').style.display = 'none';
+  }
 }
