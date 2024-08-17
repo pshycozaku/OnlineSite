@@ -11,9 +11,6 @@ const ROOM_LIMIT = 5; // Numero massimo di giocatori per stanza
 const INITIAL_LIMIT = 2;
 const INCREMENT_LIMIT = 2;
 
-const ROOM_LIMIT = 2; // Numero massimo di giocatori per stanza
-
-
 let rooms = {};
 
 app.use(express.static('public'));
