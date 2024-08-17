@@ -1,6 +1,5 @@
 const socket = io();
 
-<<<<<<< HEAD
 socket.on('connect', () => {
     console.log('Connesso al server');
 });
@@ -22,29 +21,24 @@ document.getElementById('create-game').addEventListener('click', () => {
     console.log('Richiesta di creazione della stanza');
     socket.emit('createRoom', playerInfo);
     isCreator = true;
-=======
+
 document.getElementById('create-game').addEventListener('click', () => {
     socket.emit('createRoom');
->>>>>>> 8245dc1128a98a9fb4800f17d09e9d20b6ac4691
 });
 
 document.getElementById('join-game').addEventListener('click', () => {
     const roomCode = document.getElementById('join-code').value;
     if (roomCode) {
-<<<<<<< HEAD
         console.log('Richiesta di adesione alla stanza:', roomCode);
         socket.emit('joinRoom', roomCode, playerInfo);
         isCreator = false;
-=======
         socket.emit('joinRoom', roomCode);
->>>>>>> 8245dc1128a98a9fb4800f17d09e9d20b6ac4691
     } else {
         alert('Inserisci un codice di partita valido!');
     }
 });
 
 document.getElementById('ready-button').addEventListener('click', () => {
-<<<<<<< HEAD
     console.log('Cambio stato di prontezza');
     socket.emit('playerReady');
 });
@@ -64,17 +58,14 @@ document.getElementById('submit-guess').addEventListener('click', () => {
 
 socket.on('roomCreated', (roomCode) => {
     console.log('Stanza creata:', roomCode);
-=======
     socket.emit('playerReady');
 });
 
 socket.on('roomCreated', (roomCode) => {
->>>>>>> 8245dc1128a98a9fb4800f17d09e9d20b6ac4691
     document.querySelector('.game-options').style.display = 'none';
     document.querySelector('.ready-area').style.display = 'block';
     document.getElementById('room-code').innerText = roomCode;
     document.getElementById('player-count').innerText = '1';
-<<<<<<< HEAD
     if (isCreator) {
         document.getElementById('settings-menu').style.display = 'block';
     }
@@ -82,18 +73,15 @@ socket.on('roomCreated', (roomCode) => {
 
 socket.on('roomJoined', (roomCode) => {
     console.log('Unito alla stanza:', roomCode);
-=======
 });
 
 socket.on('roomJoined', (roomCode) => {
->>>>>>> 8245dc1128a98a9fb4800f17d09e9d20b6ac4691
     document.querySelector('.game-options').style.display = 'none';
     document.querySelector('.ready-area').style.display = 'block';
     document.getElementById('room-code').innerText = roomCode;
 });
 
 socket.on('updatePlayerCount', (count) => {
-<<<<<<< HEAD
     console.log('Aggiornamento conteggio giocatori:', count);
     document.getElementById('player-count').innerText = count;
 });
@@ -116,27 +104,21 @@ socket.on('updatePlayerInfo', (players) => {
 
 socket.on('roomFull', () => {
     console.log('La stanza è piena!');
-=======
     document.getElementById('player-count').innerText = count;
 });
 
 socket.on('roomFull', () => {
->>>>>>> 8245dc1128a98a9fb4800f17d09e9d20b6ac4691
     document.getElementById('message').innerText = 'La stanza è piena!';
 });
 
 socket.on('error', (message) => {
-<<<<<<< HEAD
     console.log('Errore:', message);
-=======
->>>>>>> 8245dc1128a98a9fb4800f17d09e9d20b6ac4691
     document.getElementById('message').innerText = message;
 });
 
 socket.on('bothPlayersReady', () => {
     console.log('Entrambi i giocatori sono pronti!');
 });
-<<<<<<< HEAD
 
 socket.on('newRound', (playerId) => {
     console.log('Nuovo turno per il giocatore:', playerId);
@@ -196,5 +178,3 @@ function stopTimer() {
     }
     document.getElementById('timer').style.display = 'none';
 }
-=======
->>>>>>> 8245dc1128a98a9fb4800f17d09e9d20b6ac4691
