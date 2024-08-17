@@ -9,35 +9,59 @@
 <body>
     <div class="container">
         <h1>Minigioco</h1>
-        <div class="player-info">
+
+        <!-- Sezione per le informazioni del giocatore -->
+        <section id="player-info" class="section">
             <input type="text" id="player-name" placeholder="Inserisci il tuo nome">
             <button id="save-info">Salva Info</button>
-        </div>
-        <div class="game-options">
+        </section>
+
+        <!-- Sezione per le opzioni di gioco -->
+        <section id="game-options" class="section">
             <button id="create-game">Crea una partita</button>
             <input type="text" id="join-code" placeholder="Codice partita">
             <button id="join-game">Unisciti</button>
-        </div>
-        <div class="ready-area" style="display:none;">
-            <p>Codice stanza: <span id="room-code"></span></p>
-            <p>Giocatori: <span id="player-count">0</span> / 2</p>
-            <div id="players-list"></div>
-            <button id="ready-button">Pronto</button>
-            <button id="start-game" style="display:none;">Inizia Partita</button>
-            <div id="timer" style="display:none;"></div>
-            <div id="guess-area" style="display:none;">
-                <input type="text" id="guess-input" placeholder="Indovina la parola">
-                <button id="submit-guess">Invia</button>
+        </section>
+
+        <!-- Sezione della stanza di gioco -->
+        <section id="game-room" class="section hidden">
+            <div id="room-info">
+                <p>Codice stanza: <span id="room-code"></span></p>
+                <p>Giocatori: <span id="player-count">0</span> / <span id="room-limit">2</span></p>
+                <div id="players-list"></div>
             </div>
-        </div>
-        <div id="settings-menu" style="display:none;">
-            <h2>Impostazioni della Stanza</h2>
-            <button id="start-game">Inizia Partita</button>
-            <button id="ready-button">Pronto</button>
-        </div>
-        <div id="message"></div>
+
+            <!-- Sezione di preparazione -->
+            <div id="preparation-area">
+                <button id="ready-button">Pronto</button>
+                <button id="start-game">Inizia Partita</button>
+            </div>
+
+            <!-- Area di votazione -->
+            <div id="voting-area" class="hidden">
+                <p>Vuoi rigiocare?</p>
+                <button id="vote-replay">Rigioca</button>
+                <button id="vote-end">Finisci partita</button>
+            </div>
+
+
+            <!-- Sezione di gioco -->
+            <div id="game-area" class="hidden">
+                <div id="game-word" style="display:none;"></div>
+                <div id="timer" class=""></div>
+                <div id="word-display" style="display: none;"></div>
+                <div id="guess-area" class="">
+                    <input type="text" id="guess-input" placeholder="Indovina la parola">
+                    <button id="submit-guess">Invia</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sezione per i messaggi -->
+        <section id="message" class="section"></section>
     </div>
 
+    <!-- Inclusione dei file JavaScript -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="script.js"></script>
 </body>

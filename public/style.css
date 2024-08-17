@@ -41,3 +41,15 @@ button:hover {
     font-size: 16px;
     color: red;
 }
+
+.hidden {
+    display: none;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+#players-list .player {
+    margin: 5px 0;
+}
