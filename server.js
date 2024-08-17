@@ -6,9 +6,13 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+<<<<<<< HEAD
 const ROOM_LIMIT = 5; // Numero massimo di giocatori per stanza
 const INITIAL_LIMIT = 2;
 const INCREMENT_LIMIT = 2;
+=======
+const ROOM_LIMIT = 2; // Numero massimo di giocatori per stanza
+>>>>>>> 8245dc1128a98a9fb4800f17d09e9d20b6ac4691
 
 let rooms = {};
 
@@ -17,6 +21,7 @@ app.use(express.static('public'));
 io.on('connection', (socket) => {
     console.log('Un client si è connesso');
 
+<<<<<<< HEAD
     socket.on('createRoom', (playerInfo) => {
         const roomCode = Math.random().toString(36).substring(2, 7);
         rooms[roomCode] = {
@@ -45,6 +50,23 @@ io.on('connection', (socket) => {
             socket.emit('roomJoined', roomCode);
             io.to(roomCode).emit('updatePlayerCount', rooms[roomCode].players.size);
             io.to(roomCode).emit('updatePlayerInfo', Array.from(rooms[roomCode].players.entries()));
+=======
+    socket.on('createRoom', () => {
+        const roomCode = Math.random().toString(36).substring(2, 7);
+        rooms[roomCode] = { players: new Set(), readyPlayers: 0 };
+        socket.join(roomCode);
+        rooms[roomCode].players.add(socket.id);
+        socket.emit('roomCreated', roomCode);
+        io.to(roomCode).emit('updatePlayerCount', rooms[roomCode].players.size);
+    });
+
+    socket.on('joinRoom', (roomCode) => {
+        if (rooms[roomCode] && rooms[roomCode].players.size < ROOM_LIMIT) {
+            socket.join(roomCode);
+            rooms[roomCode].players.add(socket.id);
+            socket.emit('roomJoined', roomCode);
+            io.to(roomCode).emit('updatePlayerCount', rooms[roomCode].players.size);
+>>>>>>> 8245dc1128a98a9fb4800f17d09e9d20b6ac4691
             if (rooms[roomCode].players.size === ROOM_LIMIT) {
                 io.to(roomCode).emit('roomFull');
             }
@@ -53,6 +75,7 @@ io.on('connection', (socket) => {
         }
     });
 
+<<<<<<< HEAD
     socket.on('updatePlayerInfo', (updatedInfo) => {
         let roomCode = null;
         for (let code in rooms) {
@@ -65,11 +88,14 @@ io.on('connection', (socket) => {
         }
     });
 
+=======
+>>>>>>> 8245dc1128a98a9fb4800f17d09e9d20b6ac4691
     socket.on('playerReady', () => {
         let roomCode = null;
         for (let code in rooms) {
             if (rooms[code].players.has(socket.id)) {
                 roomCode = code;
+<<<<<<< HEAD
                 const playerInfo = rooms[code].players.get(socket.id);
                 playerInfo.ready = !playerInfo.ready;
                 rooms[code].players.set(socket.id, playerInfo);
@@ -99,6 +125,15 @@ io.on('connection', (socket) => {
                 clearTimeout(rooms[roomCode].game.timer);
                 rooms[roomCode].game.timer = null;
                 increaseRoomLimit(roomCode);
+=======
+                break;
+            }
+        }
+        if (roomCode) {
+            rooms[roomCode].readyPlayers++;
+            if (rooms[roomCode].readyPlayers === ROOM_LIMIT) {
+                io.to(roomCode).emit('bothPlayersReady');
+>>>>>>> 8245dc1128a98a9fb4800f17d09e9d20b6ac4691
             }
         }
     });
@@ -112,7 +147,10 @@ io.on('connection', (socket) => {
                 rooms[code].players.delete(socket.id);
                 rooms[code].readyPlayers = 0;
                 io.to(roomCode).emit('updatePlayerCount', rooms[code].players.size);
+<<<<<<< HEAD
                 io.to(roomCode).emit('updatePlayerInfo', Array.from(rooms[code].players.entries()));
+=======
+>>>>>>> 8245dc1128a98a9fb4800f17d09e9d20b6ac4691
                 if (rooms[code].players.size === 0) {
                     delete rooms[code];
                 }
@@ -120,6 +158,7 @@ io.on('connection', (socket) => {
             }
         }
     });
+<<<<<<< HEAD
 
     function startNewRound(roomCode) {
         const players = Array.from(rooms[roomCode].players.keys());
@@ -142,6 +181,8 @@ io.on('connection', (socket) => {
         ROOM_LIMIT += INCREMENT_LIMIT;
         io.to(roomCode).emit('roomLimitIncreased', ROOM_LIMIT);
     }
+=======
+>>>>>>> 8245dc1128a98a9fb4800f17d09e9d20b6ac4691
 });
 
 server.listen(3000, () => {
